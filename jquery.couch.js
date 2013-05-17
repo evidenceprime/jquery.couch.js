@@ -635,16 +635,16 @@
         },
 
 	// Execute an update function for a given document.
-	updateDoc: function(updateFun, doc_id, options, ajaxOptions) {
+  updateDoc: function(updateFun, doc_id, options) {
 
-	  var ddoc_fun = updateFun.split('/');
-	  var options = options || {};
-	  var type = 'PUT';
-          var data = null;
+    var ddoc_fun = updateFun.split('/');
+    var options = options || {};
+    var type = 'PUT';
+    var data = options.formData;
 
-	  return $.ajax({
-	    type: type,
-	    data: data,
+    return $.ajax({
+      type: type,
+      data: data,
             beforeSend: function(xhr) {
               xhr.setRequestHeader('Accept', '*/*');
             },
@@ -658,10 +658,10 @@
                 alert("An error occurred getting session info: " + resp.reason);
               }
             },
-	    url: this.uri + '_design/' + ddoc_fun[0] +
-	      '/_update/' + ddoc_fun[1] + '/' + doc_id + encodeOptions(options)
-	  });
-	},
+      url: this.uri + '_design/' + ddoc_fun[0] +
+        '/_update/' + ddoc_fun[1] + '/' + doc_id + encodeOptions(options.queryData)
+    });
+  },
 
         // Executes the specified view-name from the specified design-doc
         // design document, you can specify a list of <code>keys</code>
