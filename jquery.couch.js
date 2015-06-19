@@ -653,6 +653,7 @@
               if (req.status == 201) {
                 if (options.success) options.success(resp);
               } else if (options.error) {
+                resp = JSON.parse(resp);
                 options.error(req.status, resp.error, resp.reason);
               } else {
                 alert("An error occurred getting session info: " + resp.reason);
