@@ -649,12 +649,18 @@
               xhr.setRequestHeader('Accept', '*/*');
             },
             complete: function(req) {
-              var resp = req.responseText;
+              var resp;
+              try {
+                resp = JSON.parse(req.responseText);
+              }
+              catch(err) {
+                resp = req.responseText;
+              }
+
               if (req.status == 201) {
                 if (options.success) options.success(resp);
               } else if (options.error) {
-                resp = JSON.parse(resp);
-                options.error(req.status, resp.error, resp.reason);
+                options.error(req.status, req.statusText, resp.error, resp.reason);
               } else {
                 alert("An error occurred getting session info: " + resp.reason);
               }
